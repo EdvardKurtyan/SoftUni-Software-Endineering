@@ -6,6 +6,7 @@ namespace _07._Vending_Machine
     {
         static void Main(string[] args)
         {
+            //V
             // "Nuts" - 2.0
             // "Water" - 0.7
             // "Crisps" - 1.5
@@ -25,11 +26,11 @@ namespace _07._Vending_Machine
                 else
                 {
                     Console.WriteLine($"Cannot accept {inputMoney}");
-                    inputMoney = double.Parse(Console.ReadLine());
                 }
                 comand = Console.ReadLine();
             }
             double price = 0;
+            double sumOfPrice = 0;
             comand = Console.ReadLine();
             while (comand != "End")
             {
@@ -51,9 +52,25 @@ namespace _07._Vending_Machine
                         price = 1;
                         break;
                     default:
-                        break;
+                        Console.WriteLine("Invalid product");
+                        comand = Console.ReadLine();
+                        continue;
+                        //break;
                 }
+                if (sum >= sumOfPrice && sum >= price)
+                {
+                    sumOfPrice += price;
+                    Console.WriteLine($"Purchased {comand.ToLower()}");
+                }
+                else
+                {
+                    Console.WriteLine("Sorry, not enough money");
+                }
+                comand = Console.ReadLine();
             }
+            sum -= sumOfPrice;
+            Console.WriteLine($"Change: {Math.Abs(sum):F2}");
+
         }
     }
 }
