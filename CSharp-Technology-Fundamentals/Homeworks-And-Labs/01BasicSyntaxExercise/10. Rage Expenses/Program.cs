@@ -1,48 +1,69 @@
-﻿    using System;
+﻿using System;
+using System.Collections.Generic;
 
-    namespace _10._Rage_Expenses
+namespace _00._Demo
+{
+    class Program
     {
-        class Program
+        static void Main(string[] args)
         {
-            static void Main(string[] args)
+            //  •	On the first input line – lost games count – integer in the range[0…1000].
+            //  •	On the second line – headset price – floating - point number in the range[0…1000].
+            //  •	On the third line – mouse price – floating - point number in the range[0…1000].
+            //  •	On the fourth line – keyboard price – floating - point number in the range[0…1000].
+            //  •	On the fifth line – display price – floating - point number in the range[0… 1000].
+
+            // Lost games
+            int lostGameCount = int.Parse(Console.ReadLine());
+            // Prices
+            double headsetPrice = double.Parse(Console.ReadLine());
+            double mousePrice = double.Parse(Console.ReadLine());
+            double keyboardPrice = double.Parse(Console.ReadLine());
+            double displayPrice = double.Parse(Console.ReadLine());
+
+            // Every second lost game, Petar trashes his headset.
+            // Every third lost game, Petar trashes his mouse.
+            // When Petar trashes both his mouse and headset in the same lost game, he also trashes his keyboard.
+            // Every second time, when he trashes his keyboard, he also trashes his display.
+
+
+
+            double sum = 0;
+            int keyboardTrashesCounter = 0;
+            for (int i = 1; i <= lostGameCount; i++)
             {
-                int lostGames = int.Parse(Console.ReadLine());
-                double headsetPrice = double.Parse(Console.ReadLine());
-                double mousePrice = double.Parse(Console.ReadLine());
-                double keyboardPrice = double.Parse(Console.ReadLine());
-                double displayPrice = double.Parse(Console.ReadLine());
+                bool headsetTrashed = false;
+                bool mouseTrashed = false;
+                bool keyboardTrashed = false;
 
-                double fullPrice = 0;
-                int keyboardBreaksCounter = 0;
-                for (int i = 1; i < lostGames; i++)
+                int currentLostGame = i;
+
+                if (currentLostGame % 2 == 0)
                 {
-                    // When he breaks his headset.
-                    if (i % 2 == 0)
-                    {
-                        fullPrice += headsetPrice;
-                    }
-                    // When he break his mouse.
-                    if (i % 3 == 0)
-                    {
-                        fullPrice += mousePrice;
-                    }
-                    // When he broke his headset and mouse at the same time.
-                    if (i % 6 == 0)
-                    {
-                        keyboardBreaksCounter++;
-                        fullPrice += keyboardPrice;
-
-                        // When he break his display.
-                        if (keyboardBreaksCounter % 2 == 0)
-                        {
-                            fullPrice += displayPrice;
-                        }
-                    }
-
+                    sum += headsetPrice;
+                    headsetTrashed = true;
                 }
-                //•	As output you must print Petar's total expenses: "Rage expenses: {expenses} lv.".
-                Console.WriteLine($"Rage expenses: {fullPrice:f2} lv.");
+                if (currentLostGame % 3 == 0)
+                {
+                    sum += mousePrice;
+                    mouseTrashed = true;
+                }
+
+                if (mouseTrashed == true && headsetTrashed == true)
+                {
+                    sum += keyboardPrice;
+                    keyboardTrashesCounter++;
+                    keyboardTrashed = true;
+                }
+                if (keyboardTrashesCounter % 2 == 0 && keyboardTrashesCounter != 0 && keyboardTrashed == true)
+                {
+                    sum += displayPrice;
+                }
             }
+
+            //              Output 
+            //•	As output you must print Petar's total expenses: "Rage expenses: {expenses} lv.".
+            Console.WriteLine($"Rage expenses: {sum:f2} lv.");
         }
     }
-
+}
